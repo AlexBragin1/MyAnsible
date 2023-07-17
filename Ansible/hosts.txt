@@ -1,0 +1,4 @@
+[start_server_OracleLinux]
+93.183.75.20
+[start_server_Debian]
+93.183.73.128
