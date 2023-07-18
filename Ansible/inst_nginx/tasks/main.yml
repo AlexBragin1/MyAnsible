@@ -26,11 +26,9 @@
     src=/home/kroot/My_program/Ansible/inst_nginx/file/nginx.conf
     dest=/etc/nginx/nginx.conf
 - name: Add virtual domain in NGINX for RPM
-  vars:
-    fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
   template:
-    src=templates/nginx_vhosts.conf
-    dest=/etc/nginx/conf.d/{{ virtual_domain }}.conf
+    src=/home/kroot/My_program/Ansible/inst_nginx/file/nginx.conf
+    dest=/etc/nginx/nginx.conf
   when:
     ansible_os_family == "RedHat"
   notify:
