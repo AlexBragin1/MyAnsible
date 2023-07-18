@@ -1,50 +1,53 @@
- #- name: generate SSH key
- # openssh_keypair:
- #      path: /home/myuser/key
- #      type: rsa
- #      size: 4096
- #      state: present
- #      force: no
-- name: Add a new user named myuser
+
+ 
+- name: Make sure we have a 'wheel' group
+  group:
+     name: wheel
+     state: present
+
+- name: Allow 'wheel' group to have passwordless sudo
+  lineinfile:
+     dest: /etc/sudoers
+     state: present
+     regexp: '^%wheel'
+     line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+     validate: 'visudo -cf %s'
+- name: Add sudoers users to wheel group
   user:
-    name: myuser2
-    password: "{ {  'qwerty24' | password_hash('sha512') } }"
-    shell: /bin/bash
-    create_home: yes
-#          group: wheel
-  become: yes    
+     name=myuser
+     groups=wheel
+     append=yes
+     state=present
+     createhome=yes
+
+- name: Set up authorized keys for the deployer user
+  authorized_key: user=myuser key="{{item}}"
+  with_file:
+   - /home/kroot/.ssh/13.pub
+
+- name: Disable Password Authentication
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^PasswordAuthentication'
+    line="PasswordAuthentication no" state=present backup=yes
+  notify:
+    - restart ssh
+- name: Disable Root Login
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^PermitRootLogin'
+     line="PermitRootLogin no" state=present backup=yes
+  notify:
+    - restart ssh
  
-- name: Add myuser user to the sudoers
-  copy:
-     dest: "/etc/sudoers.d/myuser"
-     content: "myuser  ALL=(ALL)  NOPASSWD: ALL"
- 
-#- name: Deploy SSH Key
-#  authorized_key: 
-#     user: myuser2
-#     key: "{{ lookup('file', '/home/myuser/key.pub') }}"
-#     state: present
-#  become: yes
- 
+
 - name: Disable Password Authentication
   lineinfile:
      dest=/etc/ssh/sshd_config
      regexp='^PasswordAuthentication$'
      line="PasswordAuthentication no"
-     regexp='^(.*)Port(.*)$'
+     regexp='^Port'
      line="Port 10022"
      state=present
      backup=yes
   notify:
    - restart ssh
  
-- name: Disable Root Login
-  lineinfile:
-     dest=/etc/ssh/sshd_config
-     regexp='^PermitRootLogin'
-     line="PermitRootLogin no"
-     state=present
-     backup=yes
-  notify:
-   - restart ssh
-# tasks file for adduser
+
+
