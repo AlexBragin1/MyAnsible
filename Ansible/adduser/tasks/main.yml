@@ -1,0 +1,50 @@
+ #- name: generate SSH key
+ # openssh_keypair:
+ #      path: /home/myuser/key
+ #      type: rsa
+ #      size: 4096
+ #      state: present
+ #      force: no
+- name: Add a new user named myuser
+  user:
+    name: myuser2
+    password: "{ {  'qwerty24' | password_hash('sha512') } }"
+    shell: /bin/bash
+    create_home: yes
+#          group: wheel
+  become: yes    
+ 
+- name: Add myuser user to the sudoers
+  copy:
+     dest: "/etc/sudoers.d/myuser"
+     content: "myuser  ALL=(ALL)  NOPASSWD: ALL"
+ 
+#- name: Deploy SSH Key
+#  authorized_key: 
+#     user: myuser2
+#     key: "{{ lookup('file', '/home/myuser/key.pub') }}"
+#     state: present
+#  become: yes
+ 
+- name: Disable Password Authentication
+  lineinfile:
+     dest=/etc/ssh/sshd_config
+     regexp='^(.*)PasswordAuthentication(.*)$'
+     line="PasswordAuthentication no"
+     regexp='^(.*)Port(.*)$'
+     line="Port 10022"
+     state=present
+     backup=yes
+  notify:
+   - restart ssh
+ 
+- name: Disable Root Login
+  lineinfile:
+     dest=/etc/ssh/sshd_config
+     regexp='^(.*)PermitRootLogin(.*)'
+     line="PermitRootLogin no"
+     state=present
+     backup=yes
+  notify:
+   - restart ssh
+# tasks file for adduser

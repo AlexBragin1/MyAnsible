@@ -1,8 +1,7 @@
 ---
-- name: Playbook Update System Debian and  Oracle Linux 
-  hosts: all
-  become: yes
-  tasks:
+# tasks file for update_system
+
+  
    #-------Debian Update and Upgrade--------- 
   - block:
         - name: Update System Debian
@@ -11,7 +10,7 @@
         - name: Upgrade all packages Debian
           apt: 
             name: "*" 
-            state: latest
+            state: present
     when: ansible_os_family=="Debian"
   #--------RedHat Update and Upgrade-----------
   - block:
@@ -21,5 +20,5 @@
         - name: Upgrade all packages RedHat
           yum: 
             name: "*" 
-            state: latest
+            state: present
     when: ansible_os_family == "RedHat"

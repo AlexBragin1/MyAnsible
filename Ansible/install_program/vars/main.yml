@@ -1,0 +1,6 @@
+packages:
+  - mc
+  - htop
+  - atop
+  - ncdu---
+# vars file for install_program

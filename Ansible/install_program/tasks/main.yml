@@ -1,0 +1,14 @@
+- name: Update and install required system packages Debian
+  apt:
+    pkg: "{{pakages}}"
+    update_cache: yes
+    state: latest
+  when: ansible_os_family=="Debian"
+- name: Update and install required system packages Redhat
+  yum:
+    pkg: "{{pakages}}"
+    force_apt_get: yes
+    update_cache: yes
+    state: latest
+  when: ansible_os_family=="RedHat"---
+
