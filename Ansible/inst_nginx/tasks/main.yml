@@ -3,16 +3,17 @@
   yum:
      name: nginx
      update_cache: yes
-     state: latest
+     state: present
   when: ansible_os_family =="RedHat"
   notify:
     - nginx start 
 # tasks file for inst_Nginix
 - name: Install Nginx Web Server on  Debian
   apt:
-     name: nginx
-     update_cache: yes
-     state: present
+     name:  nginx
+    # force_apt_get: yes
+     state: latest 
+   
   when: ansible_os_family =="Debian" 
   notify: 
     - nginx start 

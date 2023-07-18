@@ -2,5 +2,5 @@ packages:
   - mc
   - htop
   - atop
-  - ncdu---
+  - ncdu
 # vars file for install_program
