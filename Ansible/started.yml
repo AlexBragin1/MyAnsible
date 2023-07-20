@@ -5,7 +5,6 @@
   roles:
     - update_system
     - adduser
-    - update_system
-    - inst_nginx
     - install_program
-
+    - inst_nginx
+    
