@@ -1,9 +1,14 @@
-
- 
 - name: Make sure we have a 'wheel' group
   group:
      name: wheel
      state: present
+  when: ansible_os_family=="RedHat"
+
+- name: Make sure we have a 'sudo' group
+  group:
+     name: sudo
+     state: present
+  when: ansible_os_family=="Debian"
 
 - name: Allow 'wheel' group to have passwordless sudo
   lineinfile:
@@ -12,6 +17,17 @@
      regexp: '^%wheel'
      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
      validate: 'visudo -cf %s'
+  when: ansible_os_family=="RedHat"
+
+- name: Allow 'sudo' group to have passwordless sudo
+  lineinfile:
+     dest: /etc/sudoers
+     state: present
+     regexp: '^%sudo'
+     line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+     validate: 'visudo -cf %s'
+  when: ansible_os_family=="Debian"
+
 - name: Add sudoers users to wheel group
   user:
      name=myuser
@@ -19,36 +35,50 @@
      append=yes
      state=present
      createhome=yes
+  when: ansible_os_family=="RedHat"
+
+- name: Add sudoers users to wheel group
+  user:
+     name=myuser
+     groups=sudo
+     append=yes
+     state=present
+     createhome=yes
+  when: ansible_os_family=="Debian"
+
 
 - name: Set up authorized keys for the deployer user
   authorized_key: user=myuser key="{{item}}"
   with_file:
    - /home/kroot/.ssh/13.pub
+  when: ansible_os_family=="RedHat" or ansible_os_family=="Debian"
 
 - name: Disable Root Login
   lineinfile: dest=/etc/ssh/sshd_config regexp='^PermitRootLogin'
      line="PermitRootLogin no" state=present backup=yes
   notify:
     - restart ssh
- 
+  when: ansible_os_family=="RedHat" or ansible_os_family=="Debian"
 
 - name: Disable Password Authentication
   lineinfile:
      dest=/etc/ssh/sshd_config
-     regexp='^PasswordAuthentication$'
+     regexp="^PasswordAuthentication"
      line="PasswordAuthentication no"
      state=present
-     backup=yes
+  become: yes  
+  when: ansible_os_family=="RedHat" or ansible_os_family=="Debian"
   notify:
    - restart ssh
 
-- name: Disable Port 22
+- name: Disable Port
   lineinfile:
      dest=/etc/ssh/sshd_config
-     regexp='^Port'
+     regexp="^Port"
      line="Port 10022"
      state=present
-     backup=yes
+  become:  yes
+  when: ansible_os_family=="RedHat" or ansible_os_family=="Debian"
   notify:
    - restart ssh
 
