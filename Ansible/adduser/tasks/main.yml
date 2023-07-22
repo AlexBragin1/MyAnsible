@@ -37,8 +37,6 @@
      dest=/etc/ssh/sshd_config
      regexp='^PasswordAuthentication$'
      line="PasswordAuthentication no"
-     regexp='^Port'
-     line="Port 10022"
      state=present
      backup=yes
   notify:
