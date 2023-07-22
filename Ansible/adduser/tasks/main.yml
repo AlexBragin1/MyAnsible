@@ -42,7 +42,7 @@
   notify:
    - restart ssh
 
-- name: Disable Port
+- name: Disable Port 22
   lineinfile:
      dest=/etc/ssh/sshd_config
      regexp='^Port'
