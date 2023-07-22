@@ -43,6 +43,14 @@
      backup=yes
   notify:
    - restart ssh
- 
 
+- name: Disable Port
+  lineinfile:
+     dest=/etc/ssh/sshd_config
+     regexp='^Port'
+     line="Port 10022"
+     state=present
+     backup=yes
+  notify:
+   - restart ssh
 
