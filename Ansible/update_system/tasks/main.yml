@@ -20,5 +20,5 @@
         - name: Upgrade all packages RedHat
           yum: 
             name: "*" 
-            state: present
+            state: latest
     when: ansible_os_family == "RedHat"
