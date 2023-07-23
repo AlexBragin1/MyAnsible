@@ -6,7 +6,7 @@
   when: ansible_os_family=="Debian"
 - name: Update and install required system packages Redhat
   yum:
-    pkg: "{{pakages}}"
+    pkg: "{{pakages1}}"
     #force_apt_get: yes
     update_cache: false
     state: latest
