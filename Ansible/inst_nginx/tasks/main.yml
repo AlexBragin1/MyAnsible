@@ -1,41 +1,59 @@
 ---
- 
-- name: Intstall Nginx Web Server on RedHat 
-  yum:
-     name: nginx
-     update_cache: yes
-     state: present
-  when: ansible_os_family =="RedHat"
-  notify:
-    - nginx start 
-
-- name: "Check if NGINX is installed"
+- name: Check if NGINX is installed
   package_facts:
      manager: "auto"
 
+- name: ensure nginx is installed
+  service: 
+     name: nginx 
+     state: stopped
+  when: "'nginx' in ansible_facts.packages"  
+
+- name: Intstall Nginx Web Server on RedHat 
+  yum:
+     name: nginx
+     state: present
+     update_cache: yes
+  when: "'nginx'not in ansible_facts.packages and ansible_os_family =='RedHat'"
+
+
 - name: Install Nginx Web Server on  Debian
   apt:
-     name:  nginx
-     state: present 
+     name: nginx
+     state: present
   when: "'nginx' not in ansible_facts.packages and ansible_os_family =='Debian'"
-  notify: 
-    - nginx start 
+
+- name: Delete dir default in directory sites-enabled
+  file:
+     path: "{{ mysrc }}"
+     state: absent
+  when: "mysrc is defined and ansible_os_family=='Debian'"
+  
 
 - name: Create home directory for www
   file:
-    path: /var/www/{{ virtual_domain }}
+    path: /var/www/html/
     state: directory 
 
-- name: Replace nginx.conf
+- name: new index.html
   template:
-    src=/home/kroot/My_program/Ansible/inst_nginx/file/nginx.conf
-    dest=/etc/nginx/nginx.conf
+    src=/home/kroot/My_program/Ansible/inst_nginx/template/index.html
+    dest=/var/www/html/index.html
 
-- name: Add virtual domain in NGINX for RPM
+  
+- name: new  myback.conf
   template:
-    src=/home/kroot/My_program/Ansible/inst_nginx/file/nginx.conf
-    dest=/etc/nginx/nginx.conf
-  when:
-    ansible_os_family == "RedHat"
+    src=/home/kroot/My_program/Ansible/inst_nginx/file/myback.conf
+    dest=/etc/nginx/conf.d/myback.conf
+  when: ansible_os_family=="RedHat"
   notify:
-    - nginx restart
+    - nginx start
+
+
+- name: new  myback.conf
+  template:
+    src=/home/kroot/My_program/Ansible/inst_nginx/file/myback.conf
+    dest=/etc/nginx/sites-enabled/myback.conf
+  when: ansible_os_family=="Debian"
+  notify:
+    - nginx start
