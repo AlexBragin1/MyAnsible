@@ -1,6 +1,10 @@
+---
 packages:
   - mc
   - htop
   - atop
   - ncdu
+packages1:
+  - epel-release
+  - mc
 # vars file for install_program
