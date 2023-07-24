@@ -7,3 +7,8 @@ Ansible
   - inst_nginx устанавливает  nginx
   ивентори файл - ansible.cfg
   групповые переменные в папки groupvars, где указан порт 10022
+файл hosts переменная домен kroot.ru:
+[start_server_OracleLinux]
+93.183.75.20 virt_dom=kroot.ru
+[start_server_Debian] 
+109.207.173.166 virt_dom=kroot.ru
