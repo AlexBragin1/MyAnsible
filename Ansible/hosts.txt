@@ -1,4 +1,4 @@
 [start_server_OracleLinux]
-93.183.75.20 virt_dom=kroot.ru
+93.183.75.20 
 [start_server_Debian] 
 109.207.173.166 virt_dom=kroot.ru
