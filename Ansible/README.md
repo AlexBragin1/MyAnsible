@@ -16,22 +16,10 @@ Ansible
 93.183.75.20 virt_dom=kroot.ru
 [start_server_Debian] 
 109.207.173.166 virt_dom=kroot.ru
-    файл конфигурации для debian(myback.conf)
+    файл конфигурации для debian(myback.conf и nginx1.conf)
 
 
-server {
-   listen 109.207.173.166:80;
-   
-   server_name {{ virt_dom }} www.{{ virt_dom }};
-   root /var/www/html;
-   index index.html index.htm;
-    access_log /var/log/nginx/{{ virt_dom }}_access_log;
-    error_log /var/log/nginx/{{ virt_dom }}_error_log;
-    
-    location / {
-         
-     }
-}
 
 
-Если набрать в браузере http://109.207.173.166  откроется сайт где будет написано "практичекое задание" 
+
+Если набрать в браузере http://109.207.173.166 и http://93.183.75.20  откроется сайт где будет написано "практичекое задание" 
