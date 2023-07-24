@@ -3,12 +3,6 @@
   package_facts:
      manager: "auto"
 
-- name: ensure nginx is installed
-  service: 
-     name: nginx 
-     state: stopped
-  when: "'nginx' in ansible_facts.packages"  
-
 - name: Intstall Nginx Web Server on RedHat 
   yum:
      name: nginx
