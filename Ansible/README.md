@@ -4,7 +4,7 @@ Ansible
   - adduser: создает нового пользователя myuser с правами sudo, устанавливет ключ пользователю, правит файл /etc/ssh/ssh_config меняет порт 10022, запрещает по поролю логиниться
   - install_program устанавливает программы -mc;htop,atop,dhcu
   - update_system обновляет систему
-  - inst_nginx устанавливает  nginx для дебиан копирует файл myback.conf в папку sites-available и создает симлинк в папке sites-enabled, такжесоздаем нашу страниццу index.html в папке /var/www/html. Для Oracle:  копируем наш файл с настройкой ссервера впапку /etc/conf.d/nginx1.conf, также скопируем файл nginx.conf c настройками nginx в папку /etc/nginx/, затем нашу страницу в   index.html в папку /var/www/html
+  - inst_nginx устанавливает  nginx для дебиан копирует файл myback.conf в папку sites-available и создает симлинк в папке sites-enabled, также создаем нашу страницу index.html в папке /var/www/html. Для Oracle:  копируем наш файл с настройкой сервера в папку /etc/conf.d/nginx1.conf, также скопируем файл nginx.conf c настройками nginx в папку /etc/nginx/, затем нашу страницу в   index.html в папку /var/www/html
 
   -   ивентори файл - ansible.cfg
   -   групповые переменные в папки groupvars, где указан порт 22(который  меняется при выполненние adduser на порт 10022)
