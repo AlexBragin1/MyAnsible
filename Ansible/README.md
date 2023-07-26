@@ -4,9 +4,9 @@ Ansible
   - adduser: создает нового пользователя myuser с правами sudo, устанавливет ключ пользователю, правит файл /etc/ssh/ssh_config меняет порт 10022, запрещает по поролю логиниться
   - install_program устанавливает программы -mc;htop,atop,dhcu
   - update_system обновляет систему
-  - inst_nginx устанавливает  nginx
-  ивентори файл - ansible.cfg
-  групповые переменные в папки groupvars, где указан порт 10022
+  - inst_nginx устанавливает  nginx для дебиан копирует файл myback.conf в папку sites_ф  nginx1.co
+    ивентори файл - ansible.cfg
+  групповые переменные в папки groupvars, где указан порт 22(который  меняется при выполненние adduser на порт 10022)
 
 
 
