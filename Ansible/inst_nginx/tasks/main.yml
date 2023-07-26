@@ -53,7 +53,7 @@
   
 
 - name: new myback.conf
-  template:
+  copy:
     src=/home/kroot/My_program/Ansible/inst_nginx/file/myback.conf
     dest=/etc/nginx/sites-available/myback.conf
   when: ansible_os_family=="Debian"
