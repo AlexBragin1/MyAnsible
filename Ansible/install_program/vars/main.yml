@@ -7,4 +7,7 @@ packages:
 packages1:
   - epel-release
   - mc
+  - atop
+  - htop
+  - ncdu
 # vars file for install_program
