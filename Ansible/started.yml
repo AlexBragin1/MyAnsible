@@ -4,7 +4,7 @@
   become: yes
   roles:
     - update_system
-    - install_program
     - adduser
     - inst_nginx
+    - install_program
     
